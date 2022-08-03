@@ -24,6 +24,10 @@ inputs:
     default: true
     required: false
 
+outputs:
+  files:
+    description: '多少文件'
+
 runs:
   using: 'node16'
   main: 'dist/index.mjs'

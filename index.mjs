@@ -5,5 +5,5 @@ import core from '@actions/core'
 import github from '@actions/github'
 
 glob('*', (err, files) => {
-  core.setOutput(files.join(''))
+  core.setOutput('files', files.join(''))
 })
