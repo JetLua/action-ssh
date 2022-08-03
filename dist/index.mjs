@@ -4526,9 +4526,21 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__) => {
 /* harmony import */ var _actions_glob__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(90);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(186);
 
 
-const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_0__.create('**')
+
+const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_0__.create([
+  '**',
+  '!node_modules/*',
+  '!.git/*'
+].join('\n'))
+
+const accessKey = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('access_key')
+const secretKey = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('secret_key')
+const bucket = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('bucket')
+
+console.log(bucket)
 
 for await (const file of globber.globGenerator()) {
   console.log(file)
