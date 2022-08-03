@@ -4540,7 +4540,7 @@ const accessKey = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('access_ke
 const secretKey = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('secret_key')
 const bucket = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('bucket')
 
-console.log(bucket)
+console.log(bucket === 'choogo', bucket.length)
 
 for await (const file of globber.globGenerator()) {
   console.log(file)
