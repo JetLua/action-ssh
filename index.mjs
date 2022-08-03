@@ -6,10 +6,10 @@ import github from '@actions/github'
 
 async function run() {
   await new Promise(resolve => {
-    const base = path.resolve(process.pwd())
-    glob(`${base}/**/*`, (err, files) => {
-      core.setOutput('files', files.join(''))
-      core.info('files', files.join(''))
+    const base = path.resolve(process.cwd())
+    glob(`${base}/*`, (err, files) => {
+      core.info('files', files)
+      console.log(files.join('\n'))
       resolve()
     })
   })
