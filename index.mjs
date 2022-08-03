@@ -6,7 +6,7 @@ import github from '@actions/github'
 
 async function run() {
   await new Promise(resolve => {
-    const base = path.resolve('.')
+    const base = path.resolve(process.pwd())
     glob(`${base}/**/*`, (err, files) => {
       core.setOutput('files', files.join(''))
       core.info('files', files.join(''))
