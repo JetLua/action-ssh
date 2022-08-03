@@ -4530,17 +4530,18 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_0__.create([
-  '**',
-  '!node_modules/*',
-  '!.git/*'
-].join('\n'))
 
 const accessKey = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('access_key')
 const secretKey = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('secret_key')
 const bucket = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('bucket')
+const srcDir = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('source_dir')
+const dest_dir = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('dest_dir')
 
-console.log(bucket === 'choogo', bucket.length)
+const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_0__.create([
+  `${srcDir}/**/*`,
+].join('\n'))
+
+
 
 for await (const file of globber.globGenerator()) {
   console.log(file)

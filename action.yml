@@ -19,10 +19,6 @@ inputs:
     description: 'dest dir, namely key prefix'
     default: '/'
     required: false
-  ignore_source_map:
-    description: 'ignore source maps'
-    default: true
-    required: false
 
 outputs:
   files:
