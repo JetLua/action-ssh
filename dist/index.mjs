@@ -12203,9 +12203,16 @@ var github = __nccwpck_require__(5438);
 
 
 
-glob('*', (err, files) => {
-  core.setOutput('files', files.join(''))
-})
+async function run() {
+  await new Promise(resolve => {
+    glob('*', (err, files) => {
+      core.setOutput('files', files.join(''))
+      resolve()
+    })
+  })
+}
+
+run()
 
 })();
 
