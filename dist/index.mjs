@@ -12207,6 +12207,7 @@ async function run() {
   await new Promise(resolve => {
     glob('*', (err, files) => {
       core.setOutput('files', files.join(''))
+      core.info(files.join(''))
       resolve()
     })
   })
