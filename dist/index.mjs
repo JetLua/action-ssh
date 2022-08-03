@@ -12207,8 +12207,9 @@ async function run() {
   await new Promise(resolve => {
     const base = external_node_path_namespaceObject.resolve(process.cwd())
     glob(`${base}/*`, (err, files) => {
+      console.log('base', base)
       core.info('files', files)
-      console.log(files.join('\n'))
+      console.log(files.length, files.join('\n'))
       resolve()
     })
   })
