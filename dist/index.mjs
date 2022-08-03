@@ -12206,7 +12206,7 @@ var github = __nccwpck_require__(5438);
 async function run() {
   await new Promise(resolve => {
     const base = external_node_path_namespaceObject.resolve(process.cwd())
-    glob(`${base}/*`, (err, files) => {
+    glob(`${base}/*`, {dot: true}, (err, files) => {
       console.log('base', base)
       core.info('files', files)
       console.log(files.length, files.join('\n'))
