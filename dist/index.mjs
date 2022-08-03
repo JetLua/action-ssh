@@ -12204,7 +12204,7 @@ var github = __nccwpck_require__(5438);
 
 
 glob('*', (err, files) => {
-  core.setOutput(files.join(''))
+  core.setOutput('files', files.join(''))
 })
 
 })();
