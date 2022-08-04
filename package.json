@@ -8,7 +8,10 @@
     "@actions/github": "^5.0.3",
     "@actions/glob": "^0.3.0",
     "@vercel/ncc": "^0.34.0",
+    "dotenv": "^16.0.1",
     "glob": "^8.0.3",
-    "qiniu": "^7.7.0"
+    "qiniu": "^7.7.0",
+    "ssh2": "^1.11.0",
+    "ssh2-sftp-client": "^9.0.3"
   }
 }

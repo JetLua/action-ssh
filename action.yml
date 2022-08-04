@@ -2,27 +2,31 @@ name: 'Deploy'
 anthor: 'JetLu'
 description: 'Github action for deploy website'
 inputs:
-  access_key:
-    description: 'access key'
+  ACCESS_KEY:
+    description: 'Qiniu Access Key'
     required: true
-  secret_key:
-    description: 'secret key'
+  SECRET_KEY:
+    description: 'Qiniu Secret Key'
     required: true
-  bucket:
-    description: 'bucket'
+  BUCKET:
+    description: 'Qiniu Bucket'
     required: true
-  source_dir:
-    description: 'source dir'
+  SOURCE_DIR:
+    description: 'Local Dir'
     default: './'
     required: false
-  dest_dir:
-    description: 'dest dir, namely key prefix'
+  DEST_DIR:
+    description: 'Qiniu Prefix'
     default: '/'
     required: false
-
-outputs:
-  files:
-    description: '多少文件'
+  SSH_KEY:
+    description: 'SSH Key'
+    required: false
+  SSH_HOST:
+    description: 'SSH Host'
+    required: false
+  SSH_PORT:
+    description: 'SSH Port'
 
 runs:
   using: 'node16'
