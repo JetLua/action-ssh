@@ -27264,11 +27264,6 @@ var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
 
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ index)
-});
-
 ;// CONCATENATED MODULE: external "node:path"
 const external_node_path_namespaceObject = require("node:path");
 ;// CONCATENATED MODULE: external "node:fs/promises"
@@ -27290,13 +27285,13 @@ var glob_default = /*#__PURE__*/__nccwpck_require__.n(glob);
 
 
 
-/* harmony default export */ async function index() {
-    const SSH_KEY = core_default().getInput('SSH_KEY');
-    const SSH_HOST = core_default().getInput('SSH_HOST');
-    const SSH_PORT = +core_default().getInput('SSH_PORT');
-    const SSH_USER = core_default().getInput('SSH_USER');
-    const SSH_DIR = core_default().getInput('SSH_DIR');
-    const client = new lib.Client();
+const SSH_KEY = core_default().getInput('SSH_KEY');
+const SSH_HOST = core_default().getInput('SSH_HOST');
+const SSH_PORT = +core_default().getInput('SSH_PORT');
+const SSH_USER = core_default().getInput('SSH_USER');
+const SSH_DIR = core_default().getInput('SSH_DIR');
+const client = new lib.Client();
+!async function () {
     const sftp = await new Promise((resolve, reject) => {
         client.connect({
             privateKey: SSH_KEY,
@@ -27362,7 +27357,7 @@ var glob_default = /*#__PURE__*/__nccwpck_require__.n(glob);
             });
         }));
     }
-}
+}();
 
 })();
 

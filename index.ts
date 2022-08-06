@@ -8,16 +8,15 @@ import glob from '@actions/glob'
 
 import type { SFTPWrapper } from 'ssh2'
 
-export default async function() {
-  const SSH_KEY = core.getInput('SSH_KEY')
-  const SSH_HOST = core.getInput('SSH_HOST')
-  const SSH_PORT = +core.getInput('SSH_PORT')
-  const SSH_USER = core.getInput('SSH_USER')
-  const SSH_DIR = core.getInput('SSH_DIR')
+const SSH_KEY = core.getInput('SSH_KEY')
+const SSH_HOST = core.getInput('SSH_HOST')
+const SSH_PORT = +core.getInput('SSH_PORT')
+const SSH_USER = core.getInput('SSH_USER')
+const SSH_DIR = core.getInput('SSH_DIR')
 
-  const client = new Client()
+const client = new Client()
 
-
+!async function() {
   const sftp = await new Promise<SFTPWrapper>((resolve, reject) => {
     client.connect({
       privateKey: SSH_KEY,
@@ -91,4 +90,4 @@ export default async function() {
       })
     }))
   }
-}
+}()
