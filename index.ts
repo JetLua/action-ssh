@@ -1,5 +1,4 @@
-import {env} from 'node:process'
-import {relative, resolve} from 'node:path'
+import {relative} from 'node:path'
 import {stat} from 'node:fs/promises'
 
 import 'dotenv/config'
@@ -10,19 +9,11 @@ import glob from '@actions/glob'
 import type { SFTPWrapper } from 'ssh2'
 
 export default async function() {
-  const SOURCE_DIR = core.getInput('SOURCE_DIR')
   const SSH_KEY = core.getInput('SSH_KEY')
   const SSH_HOST = core.getInput('SSH_HOST')
   const SSH_PORT = +core.getInput('SSH_PORT')
   const SSH_USER = core.getInput('SSH_USER')
   const SSH_DIR = core.getInput('SSH_DIR')
-
-  // const SOURCE_DIR = env.SOURCE_DIR
-  // const SSH_KEY = env.SSH_KEY
-  // const SSH_HOST = env.SSH_HOST
-  // const SSH_PORT = env.SSH_PORT
-  // const SSH_USER = env.SSH_USER
-  // const SSH_DIR = env.SSH_DIR
 
   const client = new Client()
 
@@ -61,7 +52,7 @@ export default async function() {
 
   for await (const file of globber.globGenerator()) {
     const stats = await stat(file)
-    const path = `${SSH_DIR}/${relative(SOURCE_DIR, file)}`
+    const path = `${SSH_DIR}/${relative('.', file)}`
     if (stats.isDirectory()) {
       await new Promise(resolve => {
         sftp.stat(path, (err, stats) => {

@@ -27291,18 +27291,11 @@ var glob_default = /*#__PURE__*/__nccwpck_require__.n(glob);
 
 
 /* harmony default export */ async function index() {
-    const SOURCE_DIR = core_default().getInput('SOURCE_DIR');
     const SSH_KEY = core_default().getInput('SSH_KEY');
     const SSH_HOST = core_default().getInput('SSH_HOST');
     const SSH_PORT = +core_default().getInput('SSH_PORT');
     const SSH_USER = core_default().getInput('SSH_USER');
     const SSH_DIR = core_default().getInput('SSH_DIR');
-    // const SOURCE_DIR = env.SOURCE_DIR
-    // const SSH_KEY = env.SSH_KEY
-    // const SSH_HOST = env.SSH_HOST
-    // const SSH_PORT = env.SSH_PORT
-    // const SSH_USER = env.SSH_USER
-    // const SSH_DIR = env.SSH_DIR
     const client = new lib.Client();
     const sftp = await new Promise((resolve, reject) => {
         client.connect({
@@ -27334,7 +27327,7 @@ var glob_default = /*#__PURE__*/__nccwpck_require__.n(glob);
     ]);
     for await (const file of globber.globGenerator()) {
         const stats = await (0,promises_namespaceObject.stat)(file);
-        const path = `${SSH_DIR}/${(0,external_node_path_namespaceObject.relative)(SOURCE_DIR, file)}`;
+        const path = `${SSH_DIR}/${(0,external_node_path_namespaceObject.relative)('.', file)}`;
         if (stats.isDirectory()) {
             await new Promise(resolve => {
                 sftp.stat(path, (err, stats) => {
