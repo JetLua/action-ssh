@@ -95965,7 +95965,7 @@ __webpack_handle_async_dependencies__();
 
 
 
-const __dirname = resolve()
+const __dirname = (0,node_path__WEBPACK_IMPORTED_MODULE_1__.resolve)()
 
 
 /* harmony default export */ async function __WEBPACK_DEFAULT_EXPORT__() {

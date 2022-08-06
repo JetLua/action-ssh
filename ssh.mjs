@@ -1,5 +1,5 @@
 import {env} from 'node:process'
-import {relative} from 'node:path'
+import {relative, resolve} from 'node:path'
 import {stat} from 'node:fs/promises'
 
 import 'dotenv/config'
