@@ -8,6 +8,7 @@ import qiniu from 'qiniu'
 import glob from '@actions/glob'
 import core from '@actions/core'
 
+import ssh from './ssh.mjs'
 
 const accessKey = core.getInput('access_key') ?? env.ACCESS_KEY
 const secretKey = core.getInput('secret_key') ?? env.SECRET_KEY
@@ -26,20 +27,25 @@ const uploader = new qiniu.form_up.FormUploader()
 for await (const file of globber.globGenerator()) {
   const stats = await stat(file)
   if (stats.isDirectory()) continue
-  upload(file)
+  await upload(file)
 }
 
-function upload(file) {
-  const key = `${destDir}/${relative(sourceDir, file)}`
+ssh()
 
-  const policy = new qiniu.rs.PutPolicy({
-    scope: `${bucket}:${key}`,
-  })
+async function upload(file) {
+  await new Promise(resolve => {
+    const key = `${destDir}/${relative(sourceDir, file)}`
 
-  const token = policy.uploadToken(mac)
+    const policy = new qiniu.rs.PutPolicy({
+      scope: `${bucket}:${key}`,
+    })
 
-  uploader.putStream(token, key, createReadStream(file), null, (err) => {
-    if (err) console.log(err.message)
-    console.log(`ok: ${key}`)
+    const token = policy.uploadToken(mac)
+
+    uploader.putStream(token, key, createReadStream(file), null, (err) => {
+      resolve()
+      if (err) console.log(err.message)
+      console.log(`ok: ${key}`)
+    })
   })
 }

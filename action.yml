@@ -13,12 +13,10 @@ inputs:
     required: true
   SOURCE_DIR:
     description: 'Local Dir'
-    default: './'
-    required: false
+    required: true
   DEST_DIR:
     description: 'Qiniu Prefix'
-    default: '/'
-    required: false
+    required: true
   SSH_KEY:
     description: 'SSH Key'
     required: false
@@ -27,6 +25,13 @@ inputs:
     required: false
   SSH_PORT:
     description: 'SSH Port'
+    default: '22'
+  SSH_USER:
+    description: 'SSH Username'
+    default: 'root'
+  SSH_DIR:
+    description: ' SSH destination dir'
+    required: false
 
 runs:
   using: 'node16'
