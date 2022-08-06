@@ -77,6 +77,8 @@ const client = new Client()
   client.exec(`cd ${SSH_DIR} && npm i && service website restart`, (err, steam) => {
     steam.on('data', data => {
       console.log(data.toString())
+      client.end()
+      client.destroy()
     })
   })
 
