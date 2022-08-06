@@ -1,5 +1,5 @@
 import {env} from 'node:process'
-import {relative} from 'node:path'
+import {relative, resolve} from 'node:path'
 import {stat} from 'node:fs/promises'
 import {createReadStream} from 'node:fs'
 
@@ -9,6 +9,8 @@ import glob from '@actions/glob'
 import core from '@actions/core'
 
 import ssh from './ssh.mjs'
+
+const __dirname = resolve()
 
 const accessKey = core.getInput('access_key')
 const secretKey = core.getInput('secret_key')

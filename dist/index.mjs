@@ -95896,6 +95896,8 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
+const __dirname = (0,node_path__WEBPACK_IMPORTED_MODULE_1__.resolve)()
+
 const accessKey = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('access_key')
 const secretKey = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('secret_key')
 const bucket = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('bucket')
@@ -95962,6 +95964,8 @@ __webpack_handle_async_dependencies__();
 
 
 
+
+const __dirname = resolve()
 
 
 /* harmony default export */ async function __WEBPACK_DEFAULT_EXPORT__() {
