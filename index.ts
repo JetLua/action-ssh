@@ -1,10 +1,9 @@
 import {relative} from 'node:path'
 import {stat} from 'node:fs/promises'
 
-import 'dotenv/config'
 import {Client} from 'ssh2'
-import core from '@actions/core'
-import glob from '@actions/glob'
+import * as core from '@actions/core'
+import * as glob from '@actions/glob'
 
 import type { SFTPWrapper } from 'ssh2'
 
