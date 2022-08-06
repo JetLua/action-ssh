@@ -1,7 +1,7 @@
 {
-  "version": "0.0.22",
+  "version": "0.0.1",
   "scripts": {
-    "build": "rollup --config"
+    "build": "ncc build index.ts -o dist"
   },
   "dependencies": {
     "@actions/core": "^1.9.0",
@@ -21,6 +21,7 @@
     "@babel/preset-typescript": "^7.18.6",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
-    "@types/node": "^18.6.4"
+    "@types/node": "^18.6.4",
+    "@types/ssh2": "^1.11.5"
   }
 }

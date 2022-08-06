@@ -1,22 +1,7 @@
-name: 'Deploy'
+name: 'Deploy to server'
 anthor: 'JetLu'
 description: 'Github action for deploy website'
 inputs:
-  ACCESS_KEY:
-    description: 'Qiniu Access Key'
-    required: true
-  SECRET_KEY:
-    description: 'Qiniu Secret Key'
-    required: true
-  BUCKET:
-    description: 'Qiniu Bucket'
-    required: true
-  SOURCE_DIR:
-    description: 'Local Dir'
-    required: true
-  DEST_DIR:
-    description: 'Qiniu Prefix'
-    required: true
   SSH_KEY:
     description: 'SSH Key'
     required: false

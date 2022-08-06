@@ -11,8 +11,9 @@ export default {
   },
   plugins: [
     json(),
+    nodeResolve({exportConditions: ['node'], extensions: ['.node']}),
     commonjs(),
     babel({extensions: ['.ts', '.js']}),
-    nodeResolve(),
-  ]
+  ],
+  external: ['ssh2']
 }
