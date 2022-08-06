@@ -7,8 +7,6 @@ import {Client} from 'ssh2'
 import core from '@actions/core'
 import glob from '@actions/glob'
 
-const __dirname = resolve()
-
 
 export default async function() {
   const SOURCE_DIR = core.getInput('SOURCE_DIR')
