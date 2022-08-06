@@ -95896,14 +95896,14 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-const accessKey = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('access_key') ?? node_process__WEBPACK_IMPORTED_MODULE_0__.env.ACCESS_KEY
-const secretKey = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('secret_key') ?? node_process__WEBPACK_IMPORTED_MODULE_0__.env.SECRET_KEY
-const bucket = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('bucket') ?? node_process__WEBPACK_IMPORTED_MODULE_0__.env.BUCKET
-const sourceDir = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('source_dir') ?? node_process__WEBPACK_IMPORTED_MODULE_0__.env.SOURCE_DIR
-const destDir = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('dest_dir') ?? node_process__WEBPACK_IMPORTED_MODULE_0__.env.DEST_DIR
+const accessKey = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('access_key')
+const secretKey = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('secret_key')
+const bucket = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('bucket')
+const sourceDir = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('source_dir')
+const destDir = _actions_core__WEBPACK_IMPORTED_MODULE_7__.getInput('dest_dir')
 
 const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_6__.create([
-  `${srcDir}/*`
+  `${sourceDir}/*`
 ].join('\n'))
 
 const mac = new qiniu__WEBPACK_IMPORTED_MODULE_5__.auth.digest.Mac(accessKey, secretKey)

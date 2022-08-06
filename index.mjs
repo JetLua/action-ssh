@@ -10,14 +10,14 @@ import core from '@actions/core'
 
 import ssh from './ssh.mjs'
 
-const accessKey = core.getInput('access_key') ?? env.ACCESS_KEY
-const secretKey = core.getInput('secret_key') ?? env.SECRET_KEY
-const bucket = core.getInput('bucket') ?? env.BUCKET
-const sourceDir = core.getInput('source_dir') ?? env.SOURCE_DIR
-const destDir = core.getInput('dest_dir') ?? env.DEST_DIR
+const accessKey = core.getInput('access_key')
+const secretKey = core.getInput('secret_key')
+const bucket = core.getInput('bucket')
+const sourceDir = core.getInput('source_dir')
+const destDir = core.getInput('dest_dir')
 
 const globber = await glob.create([
-  `${srcDir}/*`
+  `${sourceDir}/*`
 ].join('\n'))
 
 const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
