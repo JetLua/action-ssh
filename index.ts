@@ -44,9 +44,12 @@ const client = new Client()
     })
   })
 
+  console.log('clean: done')
+
   await mkdir([
     SSH_DIR
   ])
+  console.log('mkdir: done')
 
   for await (const file of globber.globGenerator()) {
     const stats = await stat(file)
@@ -65,6 +68,7 @@ const client = new Client()
           resolve
         )
       })
+      console.log(`ok: ${path}`)
     }
   }
 

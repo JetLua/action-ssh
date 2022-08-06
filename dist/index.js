@@ -27106,9 +27106,11 @@ const client = new lib.Client();
             resolve();
         });
     });
+    console.log('clean: done');
     await mkdir([
         SSH_DIR
     ]);
+    console.log('mkdir: done');
     for await (const file of globber.globGenerator()) {
         const stats = await (0,promises_namespaceObject.stat)(file);
         const path = `${SSH_DIR}/${(0,external_node_path_namespaceObject.relative)('.', file)}`;
@@ -27124,6 +27126,7 @@ const client = new lib.Client();
             await new Promise(resolve => {
                 sftp.fastPut(file, path, resolve);
             });
+            console.log(`ok: ${path}`);
         }
     }
     console.log('upload: done');
