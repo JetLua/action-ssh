@@ -8,7 +8,7 @@ import core from '@actions/core'
 import glob from '@actions/glob'
 
 
-export default function() {
+export default async function() {
   const SOURCE_DIR = core.getInput('SOURCE_DIR')
   const SSH_KEY = core.getInput('SSH_KEY')
   const SSH_HOST = core.getInput('SSH_HOST')
