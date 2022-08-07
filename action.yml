@@ -2,21 +2,12 @@ name: 'Deploy to server'
 anthor: 'JetLu'
 description: 'Github action for deploy website'
 inputs:
-  SSH_KEY:
-    description: 'SSH Key'
-    required: false
-  SSH_HOST:
-    description: 'SSH Host'
-    required: false
-  SSH_PORT:
-    description: 'SSH Port'
-    default: '22'
-  SSH_USER:
-    description: 'SSH Username'
-    default: 'root'
-  SSH_DIR:
-    description: ' SSH destination dir'
-    required: false
+  URL:
+    description: 'URL'
+    required: true
+  DIR:
+    description: 'DIR'
+    required: true
 
 runs:
   using: 'node16'
