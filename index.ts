@@ -38,7 +38,7 @@ const DIR = '/root/workspace/website'
   const data = await zip.generateAsync({type: 'arraybuffer'})
 
   const formData = new FormData()
-  formData.append('file', await readFile('dist.zip'), 'dist.zip')
+  formData.append('file', Buffer.from(data), 'dist.zip')
   formData.append('dir', DIR)
   console.log('upload: start')
   axios.post(URL, formData, {
