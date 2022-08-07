@@ -7,8 +7,11 @@ import * as JSZip from 'jszip'
 import * as core from '@actions/core'
 import * as glob from '@actions/glob'
 
-const URL = core.getInput('URL')
-const DIR = core.getInput('DIR')
+// const URL = core.getInput('URL')
+// const DIR = core.getInput('DIR')
+
+const URL = 'https://deploy.choogo.app'
+const DIR = '/root/workspace/website'
 
 
 !async function() {
@@ -17,6 +20,7 @@ const DIR = core.getInput('DIR')
     'public/**/*',
     'next.config.js',
     'next-env.d.ts',
+    'package.json'
   ].join('\n'))
 
   const zip = new JSZip()
@@ -34,7 +38,7 @@ const DIR = core.getInput('DIR')
   const data = await zip.generateAsync({type: 'arraybuffer'})
 
   const formData = new FormData()
-  formData.append('file', Buffer.from(data), 'dist.zip')
+  formData.append('file', await readFile('dist.zip'), 'dist.zip')
   formData.append('dir', DIR)
   console.log('upload: start')
   axios.post(URL, formData, {
