@@ -42,7 +42,8 @@ const DIR = core.getInput('DIR')
     maxBodyLength: Infinity
   }).then(() => {
     console.log('upload: done')
-  }).catch(() => {
+  }).catch(err => {
     console.log('upload: failed')
+    console.error(err)
   })
 }()
