@@ -7,11 +7,9 @@ import * as JSZip from 'jszip'
 import * as core from '@actions/core'
 import * as glob from '@actions/glob'
 
-// const URL = core.getInput('URL')
-// const DIR = core.getInput('DIR')
-
-const URL = 'https://deploy.choogo.app'
-const DIR = '/root/workspace/website'
+const URL = core.getInput('URL')
+const DIR = core.getInput('DIR')
+const TOKEN = core.getInput('TOKEN')
 
 
 !async function() {
@@ -40,12 +38,13 @@ const DIR = '/root/workspace/website'
   const formData = new FormData()
   formData.append('file', Buffer.from(data), 'dist.zip')
   formData.append('dir', DIR)
+  formData.append('token', TOKEN)
   console.log('upload: start')
   axios.post(URL, formData, {
     maxContentLength: Infinity,
     maxBodyLength: Infinity
-  }).then(() => {
-    console.log('upload: done')
+  }).then((res) => {
+    console.log(res.data)
   }).catch(err => {
     console.log('upload: failed')
     console.error(err)

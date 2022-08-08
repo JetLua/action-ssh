@@ -25646,6 +25646,8 @@ var axios_default = /*#__PURE__*/__nccwpck_require__.n(axios);
 var form_data = __nccwpck_require__(4334);
 // EXTERNAL MODULE: ./node_modules/jszip/lib/index.js
 var lib = __nccwpck_require__(3592);
+// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(2186);
 // EXTERNAL MODULE: ./node_modules/@actions/glob/lib/glob.js
 var glob = __nccwpck_require__(8090);
 ;// CONCATENATED MODULE: ./index.ts
@@ -25655,10 +25657,10 @@ var glob = __nccwpck_require__(8090);
 
 
 
-// const URL = core.getInput('URL')
-// const DIR = core.getInput('DIR')
-const URL = 'https://deploy.choogo.app';
-const DIR = '/root/workspace/website';
+
+const URL = core.getInput('URL');
+const DIR = core.getInput('DIR');
+const TOKEN = core.getInput('TOKEN');
 !async function () {
     const globber = await glob.create([
         '.next/**/*',
@@ -25682,12 +25684,13 @@ const DIR = '/root/workspace/website';
     const formData = new form_data();
     formData.append('file', Buffer.from(data), 'dist.zip');
     formData.append('dir', DIR);
+    formData.append('token', TOKEN);
     console.log('upload: start');
     axios_default().post(URL, formData, {
         maxContentLength: Infinity,
         maxBodyLength: Infinity
-    }).then(() => {
-        console.log('upload: done');
+    }).then((res) => {
+        console.log(res.data);
     }).catch(err => {
         console.log('upload: failed');
         console.error(err);
