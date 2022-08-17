@@ -39,6 +39,7 @@ const TOKEN = core.getInput('TOKEN')
   formData.append('file', Buffer.from(data), 'dist.zip')
   formData.append('dir', DIR)
   formData.append('token', TOKEN)
+  formData.append('cmd', `cd ~/root/workspace/website && npm i && service website restart`)
   console.log('upload: start')
   axios.post(URL, formData, {
     maxContentLength: Infinity,
