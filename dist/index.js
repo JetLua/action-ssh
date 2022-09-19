@@ -9064,6 +9064,7 @@ cmd.on('close', async (code) => {
                     method: 'PUT',
                     data: formData
                 }).then(({ data: { ok, data } }) => {
+                    console.log(data);
                     if (ok && data.done)
                         resolve(data.file);
                     else if (!ok)
