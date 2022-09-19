@@ -9034,7 +9034,9 @@ const external_node_child_process_namespaceObject = require("node:child_process"
 const URL = core.getInput('URL');
 const DIR = core.getInput('DIR');
 const TOKEN = core.getInput('TOKEN');
+// const URL = 'https://deploy.choogo.app'
 const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', { shell: true });
+// const cmd = spawn('zip -qr dist.zip *', {shell: true})
 cmd.on('exit', async (code) => {
     if (code)
         return console.error(code);
@@ -9056,7 +9058,7 @@ cmd.on('exit', async (code) => {
             const buf = Buffer.alloc(maxFileSize);
             await new Promise(resolve => {
                 (0,external_node_fs_namespaceObject.read)(fd.fd, { buffer: buf }, (err, num, buf) => {
-                    console.log(num);
+                    console.log(`num: ${num}`);
                     resolve();
                 });
             });
@@ -9068,8 +9070,8 @@ cmd.on('exit', async (code) => {
             axios_default()(`${URL}/upload`, {
                 method: 'PUT',
                 data: formData
-            }).then(({ data: { ok, data } }) => {
-                console.log(data);
+            }).then(({ data: { ok, data, msg } }) => {
+                console.log(`ok: ${ok}`, `msg: ${msg}`);
                 if (ok && data.done)
                     resolve(data.filePath);
                 else if (!ok)
@@ -9087,6 +9089,7 @@ cmd.on('exit', async (code) => {
             method: 'PUT',
             data: formData
         }).then(({ data: { ok, data } }) => {
+            console.log(`ok: ${ok}`, `msg: ${msg}`);
             if (ok && data.done)
                 resolve(data.filePath);
             else if (!ok)
