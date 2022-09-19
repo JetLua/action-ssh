@@ -9,7 +9,7 @@ const URL = core.getInput('URL')
 const DIR = core.getInput('DIR')
 const TOKEN = core.getInput('TOKEN')
 
-const cmd = spawn('zip -qr dist.zip .next/**/* public/**/* next.config.js next-env.d.ts package.json', {shell: true})
+const cmd = spawn('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', {shell: true})
 
 cmd.on('exit', async code => {
   if (code) return console.error(code)

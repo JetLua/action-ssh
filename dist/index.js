@@ -9034,7 +9034,7 @@ const external_node_child_process_namespaceObject = require("node:child_process"
 const URL = core.getInput('URL');
 const DIR = core.getInput('DIR');
 const TOKEN = core.getInput('TOKEN');
-const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.zip .next/**/* public/**/* next.config.js next-env.d.ts package.json', { shell: true });
+const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', { shell: true });
 cmd.on('exit', async (code) => {
     if (code)
         return console.error(code);
