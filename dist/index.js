@@ -9035,7 +9035,7 @@ const URL = core.getInput('URL');
 const DIR = core.getInput('DIR');
 const TOKEN = core.getInput('TOKEN');
 const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.zip .next/**/* public/**/* next.config.js next-env.d.ts package.json', { shell: true });
-cmd.on('close', async (code) => {
+cmd.on('exit', async (code) => {
     if (code)
         return console.error(code);
     const { ok, data, msg } = await axios_default().get(`${URL}/upload`).then(async ({ data }) => data);

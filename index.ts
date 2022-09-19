@@ -11,7 +11,7 @@ const TOKEN = core.getInput('TOKEN')
 
 const cmd = spawn('zip -qr dist.zip .next/**/* public/**/* next.config.js next-env.d.ts package.json', {shell: true})
 
-cmd.on('close', async code => {
+cmd.on('exit', async code => {
   if (code) return console.error(code)
 
   const {ok, data, msg} = await axios.get(`${URL}/upload`).then(async ({data}) => data)
