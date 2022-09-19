@@ -1,53 +1,81 @@
-import {relative} from 'node:path'
-import {readFile, stat, writeFile} from 'node:fs/promises'
-
 import axios from 'axios'
+import {stat, open, readFile} from 'node:fs/promises'
+import {read} from 'node:fs'
 import * as FormData from 'form-data'
-import * as JSZip from 'jszip'
 import * as core from '@actions/core'
-import * as glob from '@actions/glob'
+import {spawn} from 'node:child_process'
 
 const URL = core.getInput('URL')
 const DIR = core.getInput('DIR')
 const TOKEN = core.getInput('TOKEN')
 
+const cmd = spawn('zip -qr dist.zip .next/**/* public/**/* next.config.js next-env.d.ts package.json', {shell: true})
 
-!async function() {
-  const globber = await glob.create([
-    '.next/**/*',
-    'public/**/*',
-    'next.config.js',
-    'next-env.d.ts',
-    'package.json'
-  ].join('\n'))
+cmd.on('close', async code => {
+  if (code) return console.error(code)
 
-  const zip = new JSZip()
+  const {ok, data, msg} = await axios.get(`${URL}/upload`).then(async ({data}) => data)
 
-  for await (const file of globber.globGenerator()) {
-    const stats = await stat(file)
-    const rPath = relative('.', file)
-    if (stats.isDirectory()) {
-      zip.folder(rPath)
-    } else {
-      zip.file(rPath, await readFile(file))
+  if (!ok) return console.error(msg)
+
+  const info = await stat('dist.zip')
+  const size = info.size
+  const id = data.data.id
+  const maxFileSize = data.data.maxFileSize
+  const fd = await open('dist.zip')
+
+  let resolve: Function
+  const p = new Promise<string>(_resolve => resolve = _resolve)
+
+  if (size > maxFileSize) {
+    const n = size / maxFileSize | 0
+    const m = size - n * maxFileSize
+    const total = n + (m > 0 ? 1 : 0)
+
+    for (let i = 0; i < total; i++) {
+      const buf = Buffer.alloc(i < total - 1 ? maxFileSize : m)
+
+      read(fd.fd, {buffer: buf, position: i * maxFileSize}, (err) => {
+        const formData = new FormData()
+        formData.append('block', buf)
+        formData.append('id', id)
+        formData.append('index', i)
+        formData.append('total', total)
+
+        axios(`${URL}/upload`, {
+          method: 'PUT',
+          data: formData
+        }).then(({data: {ok, data}}) => {
+          if (ok && data.done) resolve(data.file)
+          else if (!ok) resolve()
+        })
+      })
     }
+  } else {
+    const formData = new FormData()
+    formData.append('block', await readFile('dist.zip'))
+    formData.append('total', 1)
+    formData.append('index', 0)
+    formData.append('id', id)
+    axios(`${URL}/upload`, {
+      method: 'PUT',
+      data: formData
+    }).then(({data: {ok, data}}) => {
+      if (ok && data.done) resolve(data.file)
+      else if (!ok) resolve()
+    })
   }
 
-  const data = await zip.generateAsync({type: 'arraybuffer'})
+  const filePath = await p
 
-  const formData = new FormData()
-  formData.append('file', Buffer.from(data), 'dist.zip')
-  formData.append('dir', DIR)
-  formData.append('token', TOKEN)
-  formData.append('cmd', `cd /root/workspace/website && npm i && service website restart`)
-  console.log('upload: start')
-  axios.post(URL, formData, {
-    maxContentLength: Infinity,
-    maxBodyLength: Infinity
-  }).then((res) => {
+  if (!filePath) return console.log('部署失败')
+
+  axios.post(`${URL}`, {
+    id,
+    dir: DIR,
+    token: TOKEN,
+    cmd: 'cd /root/workspace/website && npm i && service website restart'
+  }).then(res => {
     console.log(res.data)
-  }).catch(err => {
-    console.log('upload: failed')
-    console.error(err)
   })
-}()
+})
