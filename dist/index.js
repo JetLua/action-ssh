@@ -9038,7 +9038,7 @@ const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.
 cmd.on('exit', async (code) => {
     if (code)
         return console.error(code);
-    const { ok, data, msg } = await axios_default().get(`${URL}/upload`).then(async ({ data }) => data);
+    const { ok, data, msg } = await axios_default().get(`${URL}/upload`).then(async ({ data }) => data).catch(() => ({}));
     if (!ok)
         return console.error(msg);
     const info = await (0,promises_namespaceObject.stat)('dist.zip');
@@ -9051,14 +9051,17 @@ cmd.on('exit', async (code) => {
         const n = size / maxFileSize | 0;
         const m = size - n * maxFileSize;
         const total = n + (m > 0 ? 1 : 0);
+        const fd = await (0,promises_namespaceObject.open)('dist.zip');
         for (let i = 0; i < total; i++) {
-            const buf = Buffer.alloc(i < n ? maxFileSize : m);
-            const block = (0,external_node_fs_namespaceObject.createReadStream)('dist.zip', {
-                start: i * maxFileSize,
-                end: Math.min((i + 1) * maxFileSize - 1, size - 1)
+            const buf = Buffer.alloc(maxFileSize);
+            await new Promise(resolve => {
+                (0,external_node_fs_namespaceObject.read)(fd.fd, { buffer: buf }, (err, num, buf) => {
+                    console.log(num);
+                    resolve();
+                });
             });
             const formData = new form_data();
-            formData.append('block', block);
+            formData.append('block', buf);
             formData.append('id', id);
             formData.append('index', i);
             formData.append('total', total);
@@ -9066,8 +9069,9 @@ cmd.on('exit', async (code) => {
                 method: 'PUT',
                 data: formData
             }).then(({ data: { ok, data } }) => {
+                console.log(data);
                 if (ok && data.done)
-                    resolve(data.file);
+                    resolve(data.filePath);
                 else if (!ok)
                     resolve();
             }).catch(() => { });
@@ -9084,7 +9088,7 @@ cmd.on('exit', async (code) => {
             data: formData
         }).then(({ data: { ok, data } }) => {
             if (ok && data.done)
-                resolve(data.file);
+                resolve(data.filePath);
             else if (!ok)
                 resolve();
         });
