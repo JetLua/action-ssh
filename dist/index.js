@@ -9046,12 +9046,14 @@ cmd.on('close', async (code) => {
     const id = data.id;
     const maxFileSize = data.maxFileSize;
     const fd = await (0,promises_namespaceObject.open)('dist.zip');
+    console.log(`size: ${size}`);
     let resolve;
     const p = new Promise(_resolve => resolve = _resolve);
     if (size > maxFileSize) {
         const n = size / maxFileSize | 0;
         const m = size - n * maxFileSize;
         const total = n + (m > 0 ? 1 : 0);
+        console.log(`m: ${m}, n: ${n}, total: ${total}`);
         for (let i = 0; i < total; i++) {
             const buf = Buffer.alloc(i < total - 1 ? maxFileSize : m);
             (0,external_node_fs_namespaceObject.read)(fd.fd, { buffer: buf, position: i * maxFileSize }, (err) => {

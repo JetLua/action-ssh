@@ -24,6 +24,8 @@ cmd.on('close', async code => {
   const maxFileSize = data.maxFileSize
   const fd = await open('dist.zip')
 
+  console.log(`size: ${size}`)
+
   let resolve: Function
   const p = new Promise<string>(_resolve => resolve = _resolve)
 
@@ -31,6 +33,8 @@ cmd.on('close', async code => {
     const n = size / maxFileSize | 0
     const m = size - n * maxFileSize
     const total = n + (m > 0 ? 1 : 0)
+
+    console.log(`m: ${m}, n: ${n}, total: ${total}`)
 
     for (let i = 0; i < total; i++) {
       const buf = Buffer.alloc(i < total - 1 ? maxFileSize : m)
