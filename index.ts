@@ -9,7 +9,6 @@ import {BADFLAGS} from 'node:dns'
 const URL = core.getInput('URL')
 const DIR = core.getInput('DIR')
 const TOKEN = core.getInput('TOKEN')
-// const URL = 'https://deploy.choogo.app'
 
 const cmd = spawn('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', {shell: true})
 // const cmd = spawn('zip -qr dist.zip *', {shell: true})
@@ -38,7 +37,7 @@ cmd.on('exit', async code => {
     const fd = await open('dist.zip')
 
     for (let i = 0; i < total; i++) {
-      const buf = Buffer.alloc(maxFileSize)
+      const buf = Buffer.alloc(i < n ? maxFileSize : m)
 
       await new Promise<void>(resolve => {
         read(fd.fd, {buffer: buf}, (err, num, buf) => {

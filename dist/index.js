@@ -9034,7 +9034,6 @@ const external_node_child_process_namespaceObject = require("node:child_process"
 const URL = core.getInput('URL');
 const DIR = core.getInput('DIR');
 const TOKEN = core.getInput('TOKEN');
-// const URL = 'https://deploy.choogo.app'
 const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', { shell: true });
 // const cmd = spawn('zip -qr dist.zip *', {shell: true})
 cmd.on('exit', async (code) => {
@@ -9055,7 +9054,7 @@ cmd.on('exit', async (code) => {
         const total = n + (m > 0 ? 1 : 0);
         const fd = await (0,promises_namespaceObject.open)('dist.zip');
         for (let i = 0; i < total; i++) {
-            const buf = Buffer.alloc(maxFileSize);
+            const buf = Buffer.alloc(i < n ? maxFileSize : m);
             await new Promise(resolve => {
                 (0,external_node_fs_namespaceObject.read)(fd.fd, { buffer: buf }, (err, num, buf) => {
                     console.log(`num: ${num}`);
