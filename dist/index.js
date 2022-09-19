@@ -9045,7 +9045,6 @@ cmd.on('exit', async (code) => {
     const size = info.size;
     const id = data.id;
     const maxFileSize = data.maxFileSize;
-    const fd = await (0,promises_namespaceObject.open)('dist.zip');
     let resolve;
     const p = new Promise(_resolve => resolve = _resolve);
     if (size > maxFileSize) {
@@ -9054,22 +9053,24 @@ cmd.on('exit', async (code) => {
         const total = n + (m > 0 ? 1 : 0);
         for (let i = 0; i < total; i++) {
             const buf = Buffer.alloc(i < n ? maxFileSize : m);
-            (0,external_node_fs_namespaceObject.read)(fd.fd, { buffer: buf, position: i * maxFileSize }, (err) => {
-                const formData = new form_data();
-                formData.append('block', buf);
-                formData.append('id', id);
-                formData.append('index', i);
-                formData.append('total', total);
-                axios_default()(`${URL}/upload`, {
-                    method: 'PUT',
-                    data: formData
-                }).then(({ data: { ok, data } }) => {
-                    if (ok && data.done)
-                        resolve(data.file);
-                    else if (!ok)
-                        resolve();
-                }).catch(() => { });
+            const block = (0,external_node_fs_namespaceObject.createReadStream)('dist.zip', {
+                start: i * maxFileSize,
+                end: Math.min((i + 1) * maxFileSize - 1, size - 1)
             });
+            const formData = new form_data();
+            formData.append('block', block);
+            formData.append('id', id);
+            formData.append('index', i);
+            formData.append('total', total);
+            axios_default()(`${URL}/upload`, {
+                method: 'PUT',
+                data: formData
+            }).then(({ data: { ok, data } }) => {
+                if (ok && data.done)
+                    resolve(data.file);
+                else if (!ok)
+                    resolve();
+            }).catch(() => { });
         }
     }
     else {

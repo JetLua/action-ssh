@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {stat, open, readFile} from 'node:fs/promises'
-import {read} from 'node:fs'
+import {read, createReadStream} from 'node:fs'
 import * as FormData from 'form-data'
 import * as core from '@actions/core'
 import {spawn} from 'node:child_process'
@@ -22,7 +22,6 @@ cmd.on('exit', async code => {
   const size = info.size
   const id = data.id
   const maxFileSize = data.maxFileSize
-  const fd = await open('dist.zip')
 
   let resolve: Function
   const p = new Promise<string>(_resolve => resolve = _resolve)
@@ -35,21 +34,25 @@ cmd.on('exit', async code => {
     for (let i = 0; i < total; i++) {
       const buf = Buffer.alloc(i < n ? maxFileSize : m)
 
-      read(fd.fd, {buffer: buf, position: i * maxFileSize}, (err) => {
-        const formData = new FormData()
-        formData.append('block', buf)
-        formData.append('id', id)
-        formData.append('index', i)
-        formData.append('total', total)
-
-        axios(`${URL}/upload`, {
-          method: 'PUT',
-          data: formData
-        }).then(({data: {ok, data}}) => {
-          if (ok && data.done) resolve(data.file)
-          else if (!ok) resolve()
-        }).catch(() => {})
+      const block = createReadStream('dist.zip', {
+        start: i * maxFileSize,
+        end: Math.min((i + 1) * maxFileSize - 1, size - 1)
       })
+
+      const formData = new FormData()
+
+      formData.append('block', block)
+      formData.append('id', id)
+      formData.append('index', i)
+      formData.append('total', total)
+
+      axios(`${URL}/upload`, {
+        method: 'PUT',
+        data: formData
+      }).then(({data: {ok, data}}) => {
+        if (ok && data.done) resolve(data.file)
+        else if (!ok) resolve()
+      }).catch(() => {})
     }
   } else {
     const formData = new FormData()
