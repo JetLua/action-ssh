@@ -24,8 +24,6 @@ cmd.on('close', async code => {
   const maxFileSize = data.maxFileSize
   const fd = await open('dist.zip')
 
-  console.log(`size: ${size}`)
-
   let resolve: Function
   const p = new Promise<string>(_resolve => resolve = _resolve)
 
@@ -34,10 +32,8 @@ cmd.on('close', async code => {
     const m = size - n * maxFileSize
     const total = n + (m > 0 ? 1 : 0)
 
-    console.log(`m: ${m}, n: ${n}, total: ${total}`)
-
     for (let i = 0; i < total; i++) {
-      const buf = Buffer.alloc(i < total - 1 ? maxFileSize : m)
+      const buf = Buffer.alloc(i < n ? maxFileSize : m)
 
       read(fd.fd, {buffer: buf, position: i * maxFileSize}, (err) => {
         const formData = new FormData()
@@ -50,10 +46,9 @@ cmd.on('close', async code => {
           method: 'PUT',
           data: formData
         }).then(({data: {ok, data}}) => {
-          console.log(data)
           if (ok && data.done) resolve(data.file)
           else if (!ok) resolve()
-        })
+        }).catch(() => {})
       })
     }
   } else {
