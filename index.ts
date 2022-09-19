@@ -20,8 +20,8 @@ cmd.on('close', async code => {
 
   const info = await stat('dist.zip')
   const size = info.size
-  const id = data.data.id
-  const maxFileSize = data.data.maxFileSize
+  const id = data.id
+  const maxFileSize = data.maxFileSize
   const fd = await open('dist.zip')
 
   let resolve: Function

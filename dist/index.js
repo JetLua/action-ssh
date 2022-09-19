@@ -9043,8 +9043,8 @@ cmd.on('close', async (code) => {
         return console.error(msg);
     const info = await (0,promises_namespaceObject.stat)('dist.zip');
     const size = info.size;
-    const id = data.data.id;
-    const maxFileSize = data.data.maxFileSize;
+    const id = data.id;
+    const maxFileSize = data.maxFileSize;
     const fd = await (0,promises_namespaceObject.open)('dist.zip');
     let resolve;
     const p = new Promise(_resolve => resolve = _resolve);
