@@ -9039,7 +9039,7 @@ const cmd = (0,external_node_child_process_namespaceObject.spawn)('zip -qr dist.
 cmd.on('exit', async (code) => {
     if (code)
         return console.error(code);
-    const { ok, data, msg } = await axios_default().get(`${URL}/upload`).then(async ({ data }) => data).catch(() => ({}));
+    const { ok, data, msg } = await axios_default().get(`${URL}`).then(async ({ data }) => data).catch(() => ({}));
     if (!ok)
         return console.error(msg);
     const info = await (0,promises_namespaceObject.stat)('dist.zip');
@@ -9066,7 +9066,7 @@ cmd.on('exit', async (code) => {
             formData.append('id', id);
             formData.append('index', i);
             formData.append('total', total);
-            axios_default()(`${URL}/upload`, {
+            axios_default()(`${URL}`, {
                 method: 'PUT',
                 data: formData
             }).then(({ data: { ok, data, msg } }) => {
@@ -9084,7 +9084,7 @@ cmd.on('exit', async (code) => {
         formData.append('total', 1);
         formData.append('index', 0);
         formData.append('id', id);
-        axios_default()(`${URL}/upload`, {
+        axios_default()(`${URL}`, {
             method: 'PUT',
             data: formData
         }).then(({ data: { ok, data } }) => {

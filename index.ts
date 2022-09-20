@@ -4,7 +4,6 @@ import {read, createReadStream} from 'node:fs'
 import * as FormData from 'form-data'
 import * as core from '@actions/core'
 import {spawn} from 'node:child_process'
-import {BADFLAGS} from 'node:dns'
 
 const URL = core.getInput('URL')
 const DIR = core.getInput('DIR')
@@ -17,7 +16,7 @@ cmd.on('exit', async code => {
 
   if (code) return console.error(code)
 
-  const {ok, data, msg} = await axios.get(`${URL}/upload`).then(async ({data}) => data).catch(() => ({}))
+  const {ok, data, msg} = await axios.get(`${URL}`).then(async ({data}) => data).catch(() => ({}))
 
   if (!ok) return console.error(msg)
 
@@ -53,7 +52,7 @@ cmd.on('exit', async code => {
       formData.append('index', i)
       formData.append('total', total)
 
-      axios(`${URL}/upload`, {
+      axios(`${URL}`, {
         method: 'PUT',
         data: formData
       }).then(({data: {ok, data, msg}}) => {
@@ -68,7 +67,7 @@ cmd.on('exit', async code => {
     formData.append('total', 1)
     formData.append('index', 0)
     formData.append('id', id)
-    axios(`${URL}/upload`, {
+    axios(`${URL}`, {
       method: 'PUT',
       data: formData
     }).then(({data: {ok, data}}) => {
