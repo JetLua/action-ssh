@@ -9072,7 +9072,7 @@ cmd.on('exit', async (code) => {
             }).then(({ data: { ok, data, msg } }) => {
                 console.log(`ok: ${ok}`, `msg: ${msg}`);
                 if (ok && data.done)
-                    resolve(data.filePath);
+                    resolve(data.done);
                 else if (!ok)
                     resolve();
             }).catch(() => { });
@@ -9090,13 +9090,13 @@ cmd.on('exit', async (code) => {
         }).then(({ data: { ok, data } }) => {
             console.log(`ok: ${ok}`, `msg: ${msg}`);
             if (ok && data.done)
-                resolve(data.filePath);
+                resolve(data.done);
             else if (!ok)
                 resolve();
         });
     }
-    const filePath = await p;
-    if (!filePath)
+    const done = await p;
+    if (!done)
         return console.log('部署失败');
     axios_default().post(`${URL}`, {
         id,

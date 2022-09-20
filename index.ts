@@ -58,7 +58,7 @@ cmd.on('exit', async code => {
         data: formData
       }).then(({data: {ok, data, msg}}) => {
         console.log(`ok: ${ok}`, `msg: ${msg}`)
-        if (ok && data.done) resolve(data.filePath)
+        if (ok && data.done) resolve(data.done)
         else if (!ok) resolve()
       }).catch(() => {})
     }
@@ -73,14 +73,14 @@ cmd.on('exit', async code => {
       data: formData
     }).then(({data: {ok, data}}) => {
       console.log(`ok: ${ok}`, `msg: ${msg}`)
-      if (ok && data.done) resolve(data.filePath)
+      if (ok && data.done) resolve(data.done)
       else if (!ok) resolve()
     })
   }
 
-  const filePath = await p
+  const done = await p
 
-  if (!filePath) return console.log('部署失败')
+  if (!done) return console.log('部署失败')
 
   axios.post(`${URL}`, {
     id,
