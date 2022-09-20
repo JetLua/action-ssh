@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {stat, open, readFile} from 'node:fs/promises'
-import {read, createReadStream} from 'node:fs'
+import {read} from 'node:fs'
 import * as FormData from 'form-data'
 import * as core from '@actions/core'
 import {spawn} from 'node:child_process'
@@ -8,6 +8,10 @@ import {spawn} from 'node:child_process'
 const URL = core.getInput('URL')
 const DIR = core.getInput('DIR')
 const TOKEN = core.getInput('TOKEN')
+
+// const URL = 'http://localhost:3001'
+// const DIR = '/Users/jetlu/workspace/action-ssh/ok'
+// const TOKEN = 'Jenius'
 
 const cmd = spawn('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', {shell: true})
 // const cmd = spawn('zip -qr dist.zip *', {shell: true})
@@ -47,7 +51,7 @@ cmd.on('exit', async code => {
 
       const formData = new FormData()
 
-      formData.append('block', buf)
+      formData.append('block', buf, {filename: 'block'})
       formData.append('id', id)
       formData.append('index', i)
       formData.append('total', total)
