@@ -55,8 +55,8 @@ cmd.on('exit', async code => {
       axios(`${URL}`, {
         method: 'PUT',
         data: formData
-      }).then(({data: {ok, data, msg}}) => {
-        console.log(`ok: ${ok}`, `msg: ${msg}`)
+      }).then(({data: {ok, data, err}}) => {
+        console.log(`ok: ${ok}`, `err: ${err}`)
         if (ok && data.done) resolve(data.done)
         else if (!ok) resolve()
       }).catch(() => {})
@@ -70,8 +70,8 @@ cmd.on('exit', async code => {
     axios(`${URL}`, {
       method: 'PUT',
       data: formData
-    }).then(({data: {ok, data}}) => {
-      console.log(`ok: ${ok}`, `msg: ${msg}`)
+    }).then(({data: {ok, data, err}}) => {
+      console.log(`ok: ${ok}`, `err: ${err}`)
       if (ok && data.done) resolve(data.done)
       else if (!ok) resolve()
     })

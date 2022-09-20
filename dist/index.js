@@ -9069,8 +9069,8 @@ cmd.on('exit', async (code) => {
             axios_default()(`${URL}`, {
                 method: 'PUT',
                 data: formData
-            }).then(({ data: { ok, data, msg } }) => {
-                console.log(`ok: ${ok}`, `msg: ${msg}`);
+            }).then(({ data: { ok, data, err } }) => {
+                console.log(`ok: ${ok}`, `err: ${err}`);
                 if (ok && data.done)
                     resolve(data.done);
                 else if (!ok)
@@ -9087,8 +9087,8 @@ cmd.on('exit', async (code) => {
         axios_default()(`${URL}`, {
             method: 'PUT',
             data: formData
-        }).then(({ data: { ok, data } }) => {
-            console.log(`ok: ${ok}`, `msg: ${msg}`);
+        }).then(({ data: { ok, data, err } }) => {
+            console.log(`ok: ${ok}`, `err: ${err}`);
             if (ok && data.done)
                 resolve(data.done);
             else if (!ok)
