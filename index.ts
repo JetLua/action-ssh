@@ -7,13 +7,15 @@ import {spawn} from 'node:child_process'
 
 const URL = core.getInput('URL')
 const DIR = core.getInput('DIR')
+const CMD = core.getInput('CMD')
+const ZIP_CMD = core.getInput('ZIP_CMD')
 const TOKEN = core.getInput('TOKEN')
 
 // const URL = 'http://localhost:3001'
 // const DIR = '/Users/jetlu/workspace/action-ssh/ok'
 // const TOKEN = 'Jenius'
 
-const cmd = spawn('zip -qr dist.zip .next/* public/* next.config.js next-env.d.ts package.json', {shell: true})
+const cmd = spawn(ZIP_CMD, {shell: true})
 // const cmd = spawn('zip -qr dist.zip *', {shell: true})
 
 cmd.on('exit', async code => {
@@ -89,7 +91,7 @@ cmd.on('exit', async code => {
     id,
     dir: DIR,
     token: TOKEN,
-    cmd: 'cd /root/workspace/website && npm i && service website restart'
+    cmd: CMD
   }).then(res => {
     console.log(res.data)
   })
