@@ -11,6 +11,12 @@ inputs:
   TOKEN:
     description: 'TOKEN'
     required: true
+  CMD:
+    description: 'CMD'
+    required: true
+  ZIP_CMD:
+    description: 'ZIP_CMD'
+    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'
