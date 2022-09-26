@@ -9085,7 +9085,7 @@ cmd.on('exit', async (code) => {
     }
     else {
         const formData = new form_data();
-        formData.append('block', await (0,promises_namespaceObject.readFile)('dist.zip'));
+        formData.append('block', await (0,promises_namespaceObject.readFile)('dist.zip'), { filename: 'block' });
         formData.append('total', 1);
         formData.append('index', 0);
         formData.append('id', id);
